@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Spam Detection</title>
+</head>
+<body>
+    <h1>Email Spam Detection</h1>
+    <form id="emailForm">
+        <textarea id="emailText" rows="10" cols="50" placeholder="Enter email text here..."></textarea><br><br>
+        <button type="submit">Check for Spam</button>
+    </form>
+    <h2>Prediction: <span id="prediction"></span></h2>
+
+    <script>
+        document.getElementById('emailForm').addEventListener('submit', function(event) {
+            event.preventDefault();  // Prevent default form submission
+            const emailText = document.getElementById('emailText').value;
+
+            // Send POST request to backend server
+            fetch('http://localhost:3000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email_text: emailText }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('prediction').textContent = data.prediction;  // Show prediction
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
