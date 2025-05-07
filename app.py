@@ -10,6 +10,10 @@ nb_model = joblib.load('./nb_model.pkl')
 vectorizer = joblib.load('./vectorizer.pkl')
 label_encoder = joblib.load('./label_encoder.pkl')
 
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({"message": "Welcome to the Spam Detection API. Use POST /predict with a JSON payload like {'message': 'Your email here'}."})
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
